@@ -50,11 +50,11 @@ WSGI_APPLICATION = 'lostfound.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('CC_DB_NAME', 'lostfound_db'),
-        'USER': os.environ.get('CC_DB_USER', 'root'),
-        'PASSWORD': os.environ.get('CC_DB_PASS', 'fuad1234@'),
-        'HOST': os.environ.get('CC_DB_HOST', 'localhost'),
-        'PORT': os.environ.get('CC_DB_PORT', '3306'),
+        'NAME': os.environ.get('MYSQL_ADDON_DB', 'lostfound_db'),
+        'USER': os.environ.get('MYSQL_ADDON_USER', 'root'),
+        'PASSWORD': os.environ.get('MYSQL_ADDON_PASSWORD', 'fuad1234@'),
+        'HOST': os.environ.get('MYSQL_ADDON_HOST', 'localhost'),
+        'PORT': os.environ.get('MYSQL_ADDON_PORT', '3306'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
