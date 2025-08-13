@@ -1,0 +1,60 @@
+{% extends 'lostfound_app/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h2 class="card-title text-center mb-3">{{ item.item_name }} ({{ item_type|title }})</h2>
+
+        <!-- Images Carousel -->
+        {% if item.images.all %}
+        <div id="itemCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-inner text-center">
+                {% for img in item.images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ img.image.url }}" class="d-block mx-auto rounded" 
+                         style="max-width: 500px; max-height: 400px; object-fit: contain;" alt="Item Image">
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#itemCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#itemCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        {% else %}
+        <p class="text-center text-muted">No images available for this item.</p>
+        {% endif %}
+
+        <div class="card-body">
+            <p><strong>Category:</strong> {{ item.category }}</p>
+            <p><strong>Location:</strong> {{ item.location }}</p>
+            <p><strong>Description:</strong> {{ item.description|linebreaks }}</p>
+            <p><strong>Contact Info:</strong> {{ item.contact_info }}</p>
+            <p><small class="text-muted">Posted by {{ item.user.username }} on {{ item.date_reported }}</small></p>
+
+            <!-- Edit/Delete Buttons for owner or admin -->
+            {% if user == item.user or user.is_superuser %}
+            <div class="mt-3 d-flex gap-2">
+                {% if item_type == 'found' %}
+                <a href="{% url 'edit_found_item' item.id %}" class="btn btn-warning flex-fill rounded-pill">Edit</a>
+                <a href="{% url 'delete_found_item' item.id %}" class="btn btn-danger flex-fill rounded-pill"
+                   onclick="return confirm('Are you sure?');">Delete</a>
+                {% elif item_type == 'lost' %}
+                <a href="{% url 'edit_lost_item' item.id %}" class="btn btn-warning flex-fill rounded-pill">Edit</a>
+                <a href="{% url 'delete_lost_item' item.id %}" class="btn btn-danger flex-fill rounded-pill"
+                   onclick="return confirm('Are you sure?');">Delete</a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

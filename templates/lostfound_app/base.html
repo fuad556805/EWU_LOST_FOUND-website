@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EWU Lost & Found</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        html, body { height: 100%; margin: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f8f9fa; display: flex; flex-direction: column; min-height: 100vh; }
+
+        /* Navbar */
+        .navbar { background: linear-gradient(90deg, #00274d, #0055a5); }
+        .navbar-brand { color: #fff !important; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.5rem; }
+        .navbar-brand img { height: 45px; margin-right: 10px; }
+        .nav-link { font-weight: 500; transition: all 0.3s ease; }
+        .nav-link:hover { text-decoration: underline; }
+        .nav-link.active { font-weight: 600; }
+
+        /* Navbar buttons colorful */
+        .btn-navbar { border-radius: 25px; font-weight: 500; transition: all 0.3s ease; }
+        .btn-add-found { background-color: #0dcaf0; color: #00274d; }
+        .btn-add-found:hover { background-color: #31d2f2; color: #00274d; }
+        .btn-add-lost { background-color: #ffc107; color: #00274d; }
+        .btn-add-lost:hover { background-color: #ffcd39; color: #00274d; }
+        .btn-login { background-color: #198754; color: #fff; }
+        .btn-login:hover { background-color: #218838; }
+        .btn-signup { background-color: #6f42c1; color: #fff; }
+        .btn-signup:hover { background-color: #7952c2; }
+
+        /* Main container */
+        .content-wrapper { flex: 1 0 auto; padding: 30px; }
+
+        /* Footer */
+        footer { flex-shrink: 0; background-color: #00274d; color: #fff; padding: 20px 0; text-align: center; font-family: 'Montserrat', sans-serif; }
+
+        /* Cards */
+        .card { border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0px 8px 20px rgba(0,0,0,0.15); }
+        .card img { border-radius: 6px; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+            <img src="{% static 'images/ewulogo.png' %}" alt="EWU Logo">
+            EWU Lost & Found
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" style="color:#fff;"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link btn-navbar btn-add-found ms-2" href="{% url 'add_found_item' %}">Add Found</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-navbar btn-add-lost ms-2" href="{% url 'add_lost_item' %}">Add Lost</a>
+                    </li>
+
+                    {% if user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link btn-navbar btn-signup ms-2" href="{% url 'admin:index' %}">Admin Panel</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a class="nav-link btn-navbar btn-login ms-2" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link btn-navbar btn-login me-2" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-navbar btn-signup" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="content-wrapper container">
+    {% block content %}{% endblock %}
+</div>
+
+<!-- Footer -->
+<footer>
+    &copy; {% now "Y" %} East West University | EWU Lost & Found
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

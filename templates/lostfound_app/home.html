@@ -1,0 +1,86 @@
+{% extends 'lostfound_app/base.html' %}
+{% block content %}
+
+<div class="row g-4">
+
+    <!-- Left Column: Found Items -->
+    <div class="col-lg-6 col-md-12">
+        <h2 class="mb-4 text-primary fw-bold">FOUND ITEMS</h2>
+        {% for item in found_items %}
+        <div class="card mb-3 shadow-sm border-0" 
+             style="transition: transform 0.3s, box-shadow 0.3s; background: linear-gradient(90deg, #e0f7fa, #b2ebf2); border-radius: 12px;">
+            <div class="row g-0 align-items-center">
+                {% with first_image=item.images.first %}
+                {% if first_image %}
+                <div class="col-auto">
+                    <img src="{{ first_image.image.url }}" class="img-fluid rounded m-2" 
+                         style="width: 70px; height: 70px; object-fit: cover;" alt="Found Item">
+                </div>
+                {% endif %}
+                {% endwith %}
+                <div class="col">
+                    <div class="card-body py-2 px-3">
+                        <span class="badge bg-info text-dark mb-1">{{ item.category }}</span>
+                        <a href="{% url 'item_detail' 'found' item.id %}" class="text-decoration-none text-dark d-block">
+                            <h5 class="card-title mb-1 fw-semibold">{{ item.item_name }}</h5>
+                            <p class="card-text mb-1 text-muted" style="font-size:0.9rem;">{{ item.description|truncatechars:60 }}</p>
+                            <small class="text-muted">{{ item.date_reported }} | by {{ item.user.username }}</small>
+                        </a>
+                        {% if user == item.user or user.is_superuser %}
+                        <div class="mt-2 d-flex gap-2">
+                            <a href="{% url 'edit_found_item' item.id %}" class="btn btn-sm btn-warning flex-fill rounded-pill">Edit</a>
+                            <a href="{% url 'delete_found_item' item.id %}" class="btn btn-sm btn-danger flex-fill rounded-pill"
+                               onclick="return confirm('Are you sure?');">Delete</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">No found items yet.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Right Column: Lost Items -->
+    <div class="col-lg-6 col-md-12">
+        <h2 class="mb-4 text-danger fw-bold">LOST ITEMS</h2>
+        {% for item in lost_items %}
+        <div class="card mb-3 shadow-sm border-0" 
+             style="transition: transform 0.3s, box-shadow 0.3s; background: linear-gradient(90deg, #fff3e0, #ffe0b2); border-radius: 12px;">
+            <div class="row g-0 align-items-center">
+                {% with first_image=item.images.first %}
+                {% if first_image %}
+                <div class="col-auto">
+                    <img src="{{ first_image.image.url }}" class="img-fluid rounded m-2" 
+                         style="width: 70px; height: 70px; object-fit: cover;" alt="Lost Item">
+                </div>
+                {% endif %}
+                {% endwith %}
+                <div class="col">
+                    <div class="card-body py-2 px-3">
+                        <span class="badge bg-warning text-dark mb-1">{{ item.category }}</span>
+                        <a href="{% url 'item_detail' 'lost' item.id %}" class="text-decoration-none text-dark d-block">
+                            <h5 class="card-title mb-1 fw-semibold">{{ item.item_name }}</h5>
+                            <p class="card-text mb-1 text-muted" style="font-size:0.9rem;">{{ item.description|truncatechars:60 }}</p>
+                            <small class="text-muted">{{ item.date_reported }} | by {{ item.user.username }}</small>
+                        </a>
+                        {% if user == item.user or user.is_superuser %}
+                        <div class="mt-2 d-flex gap-2">
+                            <a href="{% url 'edit_lost_item' item.id %}" class="btn btn-sm btn-warning flex-fill rounded-pill">Edit</a>
+                            <a href="{% url 'delete_lost_item' item.id %}" class="btn btn-sm btn-danger flex-fill rounded-pill"
+                               onclick="return confirm('Are you sure?');">Delete</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">No lost items yet.</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

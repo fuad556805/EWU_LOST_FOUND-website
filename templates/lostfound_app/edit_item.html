@@ -1,0 +1,57 @@
+{% extends 'lostfound_app/base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm p-4">
+      <h3 class="text-center mb-4">Edit {{ type }} Item</h3>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Item Name -->
+        <div class="mb-3">
+          <label for="item_name" class="form-label">Item Name</label>
+          <input type="text" id="item_name" name="item_name" class="form-control" 
+                 value="{{ item.item_name }}" required>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+          <label for="category" class="form-label">Category</label>
+          <input type="text" id="category" name="category" class="form-control" 
+                 value="{{ item.category }}" required>
+        </div>
+
+        <!-- Location -->
+        <div class="mb-3">
+          <label for="location" class="form-label">Location</label>
+          <input type="text" id="location" name="location" class="form-control" 
+                 value="{{ item.location }}" required>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea id="description" name="description" class="form-control" rows="3">{{ item.description }}</textarea>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="mb-3">
+          <label for="contact_info" class="form-label">Contact Info</label>
+          <input type="text" id="contact_info" name="contact_info" class="form-control" 
+                 value="{{ item.contact_info }}" required>
+        </div>
+
+        <!-- Images (only for Found) -->
+        {% if type == 'Found' %}
+        <div class="mb-3">
+          <label for="images" class="form-label">Add/Update Images</label>
+          <input type="file" id="images" name="images" class="form-control" multiple>
+        </div>
+        {% endif %}
+
+        <button class="btn btn-primary w-100" type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
