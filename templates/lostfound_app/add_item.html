@@ -1,7 +1,7 @@
 {% extends 'lostfound_app/base.html' %}
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-md-6">
+  <div class="col-12 col-md-6">
     <div class="card shadow-sm p-4">
       <h3 class="text-center mb-4">Add {{ type }} Item</h3>
       <form method="POST" enctype="multipart/form-data">
@@ -48,4 +48,38 @@
     </div>
   </div>
 </div>
+
+<style>
+/* Mobile-friendly adjustments */
+.card {
+    border-radius: 12px;
+    padding: 20px;
+}
+
+input.form-control, textarea.form-control {
+    font-size: 15px;
+    padding: 10px;
+}
+
+button.btn {
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+@media (max-width: 576px) {
+    .card {
+        margin: 10px;
+        padding: 15px;
+    }
+    input.form-control, textarea.form-control {
+        font-size: 16px;
+        padding: 12px;
+    }
+    button.btn {
+        font-size: 17px;
+        padding: 14px;
+    }
+}
+</style>
+
 {% endblock %}
