@@ -87,9 +87,11 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # ✅ Whitenoise static files storage
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files
+# -------------------------------
+# Media files (Persistent on Render)
+# -------------------------------
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/mnt/data/media'  # ✅ Use Render Persistent Disk
 
 # Login/Logout redirects
 LOGIN_URL = '/login/'
